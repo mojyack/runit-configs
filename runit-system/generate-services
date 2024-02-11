@@ -1,0 +1,47 @@
+#!/bin/zsh
+
+set -e
+
+build="/tmp/generate-service-$$"
+rm -rf "$build"
+
+source ./config
+svdir=$build/services
+
+# base svdir
+mkdir -p "$svdir"
+for service in $enabled_services; do
+    src=services/$service
+    dst=$svdir/$service/
+    cp -r "$src" "$dst"
+
+    if [[ -d $src/log && ! -e $src/log/run ]]; then
+        run=$dst/log/run
+        log=$logdir/$service
+
+        mkdir -p $log
+        echo "#!/bin/sh" > $run
+        echo "exec svlogd -t $log" >> $run
+        chmod u+x "$run"
+    fi
+done
+
+# ttys
+for n in $ttys; do
+    dst=$svdir/getty-tty$n
+    run=$dst/run
+
+    mkdir -p $dst
+    echo "#!/bin/sh" > $run
+    echo "exec chpst -P /sbin/agetty tty$n linux" >> $run
+    chmod u+x $run
+done
+
+for f in $install_files; do
+    ln -s "$(realpath $f)" "$build/$f"
+done
+
+# install
+mkdir -p "$svroot"
+rsync -r --links "$build/" "$svroot"
+rm -r "$build"

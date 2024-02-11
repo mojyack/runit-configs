@@ -1,0 +1,13 @@
+#!/bin/sh
+exec 2>&1
+
+source ../../lib/check-dependency
+check_dependency dbus
+
+source ../../vars
+export XDG_RUNTIME_DIR
+export DBUS_SESSION_BUS_ADDRESS
+
+export WAYLAND_DISPLAY=wayland-1
+
+exec fcitx5

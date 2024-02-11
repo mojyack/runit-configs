@@ -1,0 +1,2 @@
+svroot="/run/runit"
+logdir="/var/log/services"

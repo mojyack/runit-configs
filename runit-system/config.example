@@ -1,0 +1,32 @@
+source ./vars
+
+enabled_services=(
+    # filesystem
+    mount-boot
+
+    dhcpcd
+    sshd
+    seatd
+    ntpd
+
+    # iwd
+    dbus
+    iwd
+
+    # nfs
+    rpcbind
+    rpcstatd
+    nfs-server
+)
+
+install_files=(
+    lib
+)
+
+ttys=(1 2)
+
+# for test
+if [[ $(id -u) != 0 ]]; then
+    svroot="/tmp/runit"
+    logdir="/tmp/log"
+fi

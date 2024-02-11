@@ -1,0 +1,10 @@
+#!/bin/sh
+exec 2>&1
+
+source ../../lib/check-dependency
+check_dependency pipewire
+
+source ../../vars
+export XDG_RUNTIME_DIR
+
+exec pipewire-pulse

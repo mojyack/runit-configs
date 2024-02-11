@@ -1,0 +1,7 @@
+#!/bin/zsh
+exec 2>&1
+
+source ../../lib/check-dependency
+check_dependency rpcbind
+
+exec rpc.statd --foreground --no-syslog --no-notify

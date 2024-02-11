@@ -1,0 +1,6 @@
+XDG_RUNTIME_DIR="/tmp/user/$(id -u)"
+DBUS_SESSION_BUS_ADDRESS="unix:path=$XDG_RUNTIME_DIR/bus"
+
+svroot="$XDG_RUNTIME_DIR/runit"
+logdir="$svroot/log"
+

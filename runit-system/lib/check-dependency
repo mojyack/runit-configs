@@ -1,0 +1,7 @@
+# $1 service
+check_dependency() {
+    if ! sv start "../$1" > /dev/null; then
+        echo "failed to wait for $1"
+        exit 1
+    fi
+}

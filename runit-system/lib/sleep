@@ -1,0 +1,12 @@
+# $@ message
+halt() {
+    echo $@
+    sleep infinity
+}
+
+# $@ command
+or_halt() {
+    if ! $@; then
+        halt "error: $@"
+    fi
+}
