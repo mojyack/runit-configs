@@ -1,7 +1,0 @@
-#!/bin/sh
-exec 2>&1
-
-mountpoint -q /boot || mount /dev/disk/by-partuuid/$PARTUUID /boot
-
-# oneshot
-exec rm -r $PWD

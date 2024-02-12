@@ -1,0 +1,9 @@
+#!/bin/sh
+exec 2>&1
+
+source ./config
+
+mountpoint -q /boot || mount /dev/disk/by-partuuid/$partuuid /boot
+
+# oneshot
+exec rm -r $PWD
