@@ -2,7 +2,8 @@ source ./vars
 
 enabled_services=(
     # filesystem
-    mount-boot
+    #mount-boot
+    #zram
 
     dhcpcd
     sshd
