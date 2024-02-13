@@ -9,6 +9,3 @@ modprobe zram
 zramctl /dev/zram0 --algorithm lzo-rle --size $size
 mkswap -U clear /dev/zram0
 swapon /dev/zram0
-
-# oneshot
-exec rm -r $PWD

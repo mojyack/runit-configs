@@ -2,18 +2,34 @@
 
 set -e
 
-build="/tmp/generate-service-$$"
-rm -rf "$build"
-
 source ./config
+build="/tmp/generate-service-$$"
 svdir=$build/services
+
+if [[ ! -e $svroot ]]; then
+    firstboot=1
+else
+    firstboot=0
+fi
+
+rm -rf "$build"
 
 # base svdir
 mkdir -p "$svdir"
 for service in $enabled_services; do
     src=services/$service
     dst=$svdir/$service/
+
+    if [[ -e $src/oneshot && $firstboot != 1 ]]; then
+        continue
+    fi
+
     cp -r "$src" "$dst"
+
+    if [[ -e $src/oneshot ]]; then
+        run=$dst/run
+        echo -e "\nexec rm -r \"\$PWD\"" >> $run
+    fi
 
     if [[ -d $src/log && ! -e $src/log/run ]]; then
         run=$dst/log/run
