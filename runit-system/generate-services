@@ -31,11 +31,12 @@ for service in $enabled_services; do
         echo -e "\nexec rm -r \"\$PWD\"" >> $run
     fi
 
-    if [[ -d $src/log && ! -e $src/log/run ]]; then
+    if [[ -e $src/autolog ]]; then
         run=$dst/log/run
         log=$logdir/$service
 
-        mkdir -p $log
+        mkdir -p "$log"
+        mkdir -p "$dst/log"
         echo "#!/bin/sh" > $run
         echo "exec svlogd -t $log" >> $run
         chmod u+x "$run"
