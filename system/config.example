@@ -1,10 +1,11 @@
 source ./vars
 
-enabled_services=(
-    # filesystem
-    #mount-boot
+enabled_oneshots=(
+    mount-boot
     #zram
+)
 
+enabled_services=(
     dhcpcd
     sshd
     seatd

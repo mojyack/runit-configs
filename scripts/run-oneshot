@@ -1,0 +1,17 @@
+#!/bin/zsh
+
+source ./config
+
+logdir=$logdir/oneshot
+
+# $1 oneshot
+run_oneshot() {
+    cd "./oneshot/$1"
+    ./run 1> $logdir/$1.stdout 2> $logdir/$1.stderr
+    echo "$? $1" >> $logdir/result
+}
+
+mkdir -p "$logdir"
+for oneshot in $enabled_oneshots; do
+    run_oneshot "$oneshot" &
+done
