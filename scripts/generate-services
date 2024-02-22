@@ -6,12 +6,6 @@ source ./config
 build="/tmp/generate-service-$$"
 svdir=$build/services
 
-if [[ ! -e $svroot ]]; then
-    firstboot=1
-else
-    firstboot=0
-fi
-
 rm -rf "$build"
 
 # base svdir
@@ -20,16 +14,7 @@ for service in $enabled_services; do
     src=services/$service
     dst=$svdir/$service/
 
-    if [[ -e $src/oneshot && $firstboot != 1 ]]; then
-        continue
-    fi
-
     cp -r "$src" "$dst"
-
-    if [[ -e $src/oneshot ]]; then
-        run=$dst/run
-        echo -e "\nexec rm -r \"\$PWD\"" >> $run
-    fi
 
     if [[ -e $src/autolog ]]; then
         run=$dst/log/run
