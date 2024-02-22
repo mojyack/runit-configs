@@ -12,7 +12,7 @@ rm -rf "$build"
 mkdir -p "$svdir"
 for service in $enabled_services; do
     src=services/$service
-    dst=$svdir/$service/
+    dst=$svdir/$service
 
     cp -r "$src" "$dst"
 
