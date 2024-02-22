@@ -48,9 +48,18 @@ for n in $ttys; do
     dst=$svdir/getty-tty$n
     run=$dst/run
 
+    # autologin
+    autologin_user=autologin_tty$n
+    autologin_user=${(P)autologin_user}
+    if [[ -n $autologin_user ]]; then
+        autologin_args="--autologin '$autologin_user'"
+    else
+        autologin_args=""
+    fi
+
     mkdir -p $dst
     echo "#!/bin/sh" > $run
-    echo "exec chpst -P /sbin/agetty tty$n linux" >> $run
+    echo "exec chpst -P /sbin/agetty $autologin_args tty$n linux" >> $run
     chmod u+x $run
 done
 
