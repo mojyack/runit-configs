@@ -3,6 +3,7 @@ source ./vars
 enabled_oneshots=(
     mount-boot
     #zram
+    #wake-on-lan
 )
 
 enabled_services=(
