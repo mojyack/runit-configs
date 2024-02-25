@@ -1,6 +1,7 @@
 source ./vars
 
 enabled_oneshots=(
+    up-loopback
     mount-boot
     #zram
     #wake-on-lan
