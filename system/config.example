@@ -12,15 +12,15 @@ enabled_services=(
     sshd
     seatd
     ntpd
+    nfs-server
 
     # iwd
     dbus
     iwd
 
-    # nfs
-    rpcbind
-    rpcstatd
-    nfs-server
+    # nfs v3 support
+    #rpcbind
+    #rpcstatd
 )
 
 install_files=(

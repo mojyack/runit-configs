@@ -3,13 +3,20 @@ exec 2>&1
 
 set -e
 
-source ../../lib/check-dependency
-check_dependency rpcstatd
+v4_only=1
+mountd_args=( --foreground )
 
-pipefs=/var/lib/nfs/rpc_pipefs
-if ! mountpoint -q "$pipefs"; then
-    mkdir -p "$pipefs"
-    mount -t rpc_pipefs -o defaults rpc_pipefs "$pipefs"
+if [[ $v4_only == 0 ]]; then
+    source ../../lib/check-dependency
+    check_dependency rpcstatd
+
+    pipefs=/var/lib/nfs/rpc_pipefs
+    if ! mountpoint -q "$pipefs"; then
+        mkdir -p "$pipefs"
+        mount -t rpc_pipefs -o defaults rpc_pipefs "$pipefs"
+    fi
+else
+    mountd_args=( $mountd_args --no-nfs-version 2 --no-nfs-version 3 )
 fi
 
 if ! mountpoint -q /proc/fs/nfsd; then
@@ -20,4 +27,4 @@ exportfs -ra > /dev/null
 rpc.nfsd
 sm-notify
 
-exec rpc.mountd --foreground
+exec rpc.mountd $mountd_args
